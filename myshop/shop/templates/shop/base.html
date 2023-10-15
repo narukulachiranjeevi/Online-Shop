@@ -12,9 +12,18 @@
         <a href="/" class="logo">My shop</a>
     </div>
     <div id="subheader">
-        <div class="cart">
-        Your cart is empty.
-        </div>
+        {% with total_items=cart|length %}
+        {{ total_items }}
+            {% if total_items > 0 %}
+            Your cart:
+                <a href="{% url "cart:cart_detail" %}">
+                {{ total_items }} item{{ total_items|pluralize }},
+                ${{ cart.get_total_price }}
+                </a>
+            {% else %}
+                Your cart is empty.
+            {% endif %}
+        {% endwith %}
     </div>
     <div id="content">
         {% block content %}
